@@ -1,4 +1,5 @@
 import 'package:collegesection/models/user.dart';
+import 'package:collegesection/scroll.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'screens/home.dart';

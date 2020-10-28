@@ -1,7 +1,9 @@
 import 'package:collegesection/models/user.dart';
+import 'package:collegesection/screens/mapscreens/Vibe_map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:collegesection/screens/events/events_home.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -43,86 +45,233 @@ class Home extends StatelessWidget {
     final user = Provider.of<UserDetails>(context);
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: ListView(
-        children: [
-          Container(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  Events(user.uid)),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 6,
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          child: Text('Events'),
-                          color: Colors.blueGrey,
+        appBar: AppBar(
+          title: Text('Home'),
+        ),
+        body: ListView(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "  Hello,",
+              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "     Simba",
+              style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Container(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    Events(user.uid)),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                // image: new DecorationImage(image: SvgPicture.asset("assets/party.png"),fit: BoxFit.fill),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            height: MediaQuery.of(context).size.height / 6,
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child: SvgPicture.asset(
+                              "assets/events.svg",
+                              fit: BoxFit.cover,
+                            ),
+                            // color: Colors.blueGrey,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        height: MediaQuery.of(context).size.height / 6,
-                        child: Text('Activities'),
-                        color: Colors.grey,
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: new DecorationImage(
+                                  image: AssetImage("assets/party.png"),
+                                  fit: BoxFit.fill),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          height: MediaQuery.of(context).size.height / 6,
+                          child: SvgPicture.asset(
+                            "assets/activities.svg",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        height: MediaQuery.of(context).size.height / 6,
-                        child: Text('Growth+'),
-                        color: Colors.lightGreenAccent,
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: new DecorationImage(
+                                  image: AssetImage("assets/party.png"),
+                                  fit: BoxFit.fill),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          height: MediaQuery.of(context).size.height / 6,
+                          child: SvgPicture.asset(
+                            "assets/growth.svg",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        height: MediaQuery.of(context).size.height / 6,
-                        child: Text('Money Matters'),
-                        color: Colors.amberAccent,
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: new DecorationImage(
+                                  image: AssetImage("assets/party.png"),
+                                  fit: BoxFit.fill),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          height: MediaQuery.of(context).size.height / 6,
+                          child: SvgPicture.asset(
+                            "assets/money.svg",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-              height: MediaQuery.of(context).size.height / 4,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _list[index],
-                    );
-                  },
-                  itemCount: _list.length)),
-        ],
-      ),
-    );
+            Text(
+              "   Hot 'n Happening",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  alignment: Alignment.topCenter,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 250,
+                        margin: EdgeInsets.only(right: 20),
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.orange.shade400,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 250,
+                        margin: EdgeInsets.only(right: 20),
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.blue.shade400,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0))),
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 250,
+                        margin: EdgeInsets.only(right: 20),
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.lightBlueAccent.shade400,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Text(
+              "   Vibe with someone",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Map_Vibe()));
+              },
+              child: Container(
+                width: 250,
+                margin: EdgeInsets.all(10),
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                ),
+                child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Center(
+                          child: Text(
+                            "Map",
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+
+              ),
+            ),
+            Text(
+              "   Everyday Hustle",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ));
   }
 }
