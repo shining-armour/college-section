@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:search_map_place/search_map_place.dart';
 
 class Map_Vibe extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class Map_Vibe extends StatefulWidget {
 }
 
 class _Map_VibeState extends State<Map_Vibe> {
+  GoogleMapController mapController;
   Completer<GoogleMapController> _controller = Completer();
   static const LatLng _center = const LatLng(12.9716 , 77.5946);
   final Set<Marker> _markers = {};
@@ -62,36 +65,56 @@ class _Map_VibeState extends State<Map_Vibe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   automaticallyImplyLeading: true,
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        //   leading: IconButton(
-        //     icon: SvgPicture.asset("assets/back.svg"),
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //   ),
-        // ),
+        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomPadding: false,
         body:
       Stack(
       children: <Widget>[
 
-        GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
+
+        Padding(
+          padding: const EdgeInsets.only(top:90.0),
+          child: SizedBox(
+            height: 700,
+            child: GoogleMap(
+              onMapCreated: (GoogleMapController googleMapController) {
+                setState(() {
+                  mapController = googleMapController;
+                  print("$mapController"+"aaaaaaaaaaaaaaaaaaaaaaaaa");
+                });
+              },
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
+              ),
+              mapType: _currentMapType,
+              markers: _markers.toSet(),
+              onCameraMove: _onCameraMove,
+              onTap: (coordinate){
+                _addMarker(coordinate);
+              },
+            ),
           ),
-          mapType: _currentMapType,
-          markers: _markers.toSet(),
-          onCameraMove: _onCameraMove,
-          onTap: (coordinate){
-            _addMarker(coordinate);
-          },
+
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 50),
+          padding: EdgeInsets.only(left: 45,top: 30),
+          child: SearchMapPlaceWidget(
+            hasClearButton: true,
+            placeType: PlaceType.address,
+            placeholder: 'Enter the location',
+            apiKey: 'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
+            onSelected: (Place place) async {
+              Geolocation geolocation = await place.geolocation;
+              mapController.animateCamera(
+                  CameraUpdate.newLatLng(geolocation.coordinates));
+              mapController.animateCamera(
+                  CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
+            },
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 90),
           child: Padding(
             padding: EdgeInsets.all(16.0),
             child: Align(
@@ -105,7 +128,7 @@ class _Map_VibeState extends State<Map_Vibe> {
             ),
           ),
         ),
-        Padding(padding: EdgeInsets.all(15),
+        Padding(padding: EdgeInsets.only(left: 2,top: 20),
         child:  Container(child:
         Padding(
           padding: EdgeInsets.symmetric(vertical: 15),
