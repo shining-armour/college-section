@@ -1,4 +1,5 @@
 import 'package:collegesection/models/Activity.dart';
+import 'package:collegesection/screens/activities/activity_display.dart';
 import 'package:collegesection/screens/activities/add_activity.dart';
 import 'package:collegesection/services/activity_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -226,12 +227,18 @@ class _ActivityHomeState extends State<ActivityHome> {
                                       activities[index].activityId,
                                       activities[index].activityType),
                               builder: (context, snapshot) {
-                                print(activities[index].activityId +
-                                    ' ' +
-                                    activities[index].activityType);
                                 if (snapshot.hasData) {
-                                  print(snapshot.data.toString() + 's');
                                   return ListTile(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder:
+                                                (BuildContext context) {
+                                          return ActivityDisplay(
+                                            uid: widget.uid,
+                                            a: snapshot.data,
+                                          );
+                                        }));
+                                      },
                                       title: Text(snapshot.data.activityTitle));
                                 } else {
                                   print(snapshot.data);
