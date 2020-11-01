@@ -46,7 +46,7 @@ class _EventsMapState extends State<EventsMap> {
     ByteData musicbyteData =
         await DefaultAssetBundle.of(context).load('assets/music.png');
     ByteData partybyteData =
-        await DefaultAssetBundle.of(context).load('assets/party.png');
+        await DefaultAssetBundle.of(context).load('assets/party2.png');
     gps = gpsbyteData.buffer.asUint8List();
     clg = collegebyteData.buffer.asUint8List();
     music = musicbyteData.buffer.asUint8List();
