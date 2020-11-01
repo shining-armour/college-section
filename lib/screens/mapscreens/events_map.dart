@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -59,7 +58,7 @@ class _EventsMapState extends State<EventsMap> {
   }
 
   void _updateEventMarkers() async {
-    await _getMarkers();
+    _getMarkers();
     details =
         await EventDatabaseService(uid: widget.uid).eventDetailsForMarkers();
     print(details.length);
@@ -133,7 +132,6 @@ class _EventsMapState extends State<EventsMap> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement buil
     return Scaffold(
       appBar: AppBar(),
       body: GoogleMap(

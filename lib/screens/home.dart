@@ -1,4 +1,5 @@
 import 'package:collegesection/models/user.dart';
+import 'package:collegesection/screens/activities/activities_home.dart';
 import 'package:collegesection/screens/mapscreens/Vibe_map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,43 +8,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-  List<Widget> _list = [
-    Container(
-      width: 250,
-      child: Text('Growth+'),
-      color: Colors.lightGreenAccent,
-    ),
-    Container(
-      width: 250,
-      child: Text('Money Matters'),
-      color: Colors.amberAccent,
-    ),
-    Container(
-      width: 250,
-      child: Text('Growth+'),
-      color: Colors.lightGreenAccent,
-    ),
-    Container(
-      width: 250,
-      child: Text('Money Matters'),
-      color: Colors.amberAccent,
-    ),
-    Container(
-      width: 250,
-      child: Text('Growth+'),
-      color: Colors.lightGreenAccent,
-    ),
-    Container(
-      width: 250,
-      child: Text('Money Matters'),
-      color: Colors.amberAccent,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserDetails>(context);
-    // TODO: implement build
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Home'),
@@ -99,20 +67,30 @@ class Home extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              image: new DecorationImage(
-                                  image: AssetImage("assets/party.png"),
-                                  fit: BoxFit.fill),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          height: MediaQuery.of(context).size.height / 6,
-                          child: SvgPicture.asset(
-                            "assets/activities.svg",
-                            fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ActivityHome(uid: user.uid)),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                image: new DecorationImage(
+                                    image: AssetImage("assets/party.png"),
+                                    fit: BoxFit.fill),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            height: MediaQuery.of(context).size.height / 6,
+                            child: SvgPicture.asset(
+                              "assets/activities.svg",
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -236,7 +214,8 @@ class Home extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Map_Vibe()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Map_Vibe()));
               },
               child: Container(
                 width: 250,
@@ -247,24 +226,23 @@ class Home extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(20.0)),
                 ),
                 child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 25,
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Center(
+                        child: Text(
+                          "Map",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
                         ),
-                        Center(
-                          child: Text(
-                            "Map",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-
+                ),
               ),
             ),
             Text(

@@ -17,7 +17,6 @@ class _RegisterState extends State<Register> {
   String error = "";
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       child: Form(
         key: _formKey,

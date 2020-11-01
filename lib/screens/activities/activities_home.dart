@@ -1,25 +1,22 @@
-import 'package:collegesection/models/event.dart';
-import 'package:collegesection/screens/events/event_display.dart';
-import 'package:collegesection/services/eventdatabase.dart';
+import 'package:collegesection/models/Activity.dart';
+import 'package:collegesection/screens/activities/add_activity.dart';
+import 'package:collegesection/services/activity_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:collegesection/screens/events/add_event.dart';
-import 'package:collegesection/screens/mapscreens/events_map.dart';
 
-class Events extends StatefulWidget {
+class ActivityHome extends StatefulWidget {
   final String uid;
 
-  Events(this.uid);
+  const ActivityHome({this.uid});
 
   @override
-  _EventsState createState() => _EventsState();
+  _ActivityHomeState createState() => _ActivityHomeState();
 }
 
-class _EventsState extends State<Events> {
-  List<Event> events;
-  EventDetails details;
+class _ActivityHomeState extends State<ActivityHome> {
   int sortValue = 2;
   int page = 0;
+  List<Activity> activities = [];
 
   void _showSortingOptions(context) {
     showModalBottomSheet(
@@ -81,7 +78,6 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -126,7 +122,7 @@ class _EventsState extends State<Events> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'College Fests',
+                      'Sports',
                       style:
                           TextStyle(color: Colors.orangeAccent, fontSize: 20.0),
                     ),
@@ -141,7 +137,7 @@ class _EventsState extends State<Events> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Music Fests',
+                      'E-sports',
                       style:
                           TextStyle(color: Colors.amberAccent, fontSize: 20.0),
                     ),
@@ -156,7 +152,7 @@ class _EventsState extends State<Events> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Parties',
+                      'Skills+',
                       style: TextStyle(
                           color: Colors.lightGreenAccent, fontSize: 20.0),
                     ),
@@ -178,7 +174,9 @@ class _EventsState extends State<Events> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AddEvent(widget.uid)));
+                              builder: (BuildContext context) => AddActivity(
+                                    uid: widget.uid,
+                                  )));
                     },
                     icon: Icon(
                       Icons.add,
@@ -199,12 +197,7 @@ class _EventsState extends State<Events> {
                           width: 5.0,
                         ),
                         InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (BuildContext context) {
-                              return EventsMap(widget.uid);
-                            }));
-                          },
+                          onTap: () {},
                           child: Container(
                             child: Icon(Icons.map),
                           ),
@@ -216,53 +209,41 @@ class _EventsState extends State<Events> {
               ],
             ),
           ),
-          StreamBuilder<List<Event>>(
-              stream: EventDatabaseService(uid: widget.uid)
-                  .getEvents(sortValue, page),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && !snapshot.hasError) {
-                  events = snapshot.data;
-                  return Container(
-                    height: size.height * 0.5,
-                    child: ListView.builder(
-                      itemBuilder: (BuildContext context, int index) {
-                        return StreamBuilder<EventDetails>(
-                            stream: EventDatabaseService(uid: widget.uid)
-                                .getEventDetails(events[index].eventId),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                details = snapshot.data;
-                                return ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                EventDisplay(
-                                                  eid: events[index].eventId,
-                                                  uid: widget.uid,
-                                                )));
-                                  },
-                                  title: Text(details.eventName),
-                                  subtitle: Text(details.dateOfEvent +
-                                      " " +
-                                      details.timeOfEvent),
-                                );
-                              } else {
-                                return ListTile();
-                              }
-                            });
-                      },
-                      itemCount: events.length,
-                    ),
-                  );
-                } else {
-                  print(snapshot.error);
-                  return Container(
-                    child: Text('No Events'),
-                  );
-                }
-              }),
+          Container(
+            height: size.height * 0.7,
+            child: StreamBuilder<List<Activity>>(
+                stream: ActivityDatabaseService(uid: widget.uid)
+                    .getActivities(sortValue, page),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    activities = snapshot.data;
+                    return ListView.builder(
+                        itemCount: activities.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return StreamBuilder<ActivityDetails>(
+                              stream: ActivityDatabaseService(uid: widget.uid)
+                                  .getActivityDetails(
+                                      activities[index].activityId,
+                                      activities[index].activityType),
+                              builder: (context, snapshot) {
+                                print(activities[index].activityId +
+                                    ' ' +
+                                    activities[index].activityType);
+                                if (snapshot.hasData) {
+                                  print(snapshot.data.toString() + 's');
+                                  return ListTile(
+                                      title: Text(snapshot.data.activityTitle));
+                                } else {
+                                  print(snapshot.data);
+                                  return ListTile();
+                                }
+                              });
+                        });
+                  } else {
+                    return Container();
+                  }
+                }),
+          ),
         ],
       ),
     );

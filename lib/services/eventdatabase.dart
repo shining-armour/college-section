@@ -1,9 +1,5 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collegesection/models/event.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class EventDatabaseService {
   final String uid;
@@ -113,18 +109,14 @@ class EventDatabaseService {
   Future<List<EventDetails>> eventDetailsForMarkers() async {
     List<EventDetails> list = [];
     List<String> addresses = [];
-    print('hello');
     QuerySnapshot snapshot = await eventCollection.get();
-    print('hello');
     print(snapshot.size);
     snapshot.docs.forEach((document) {
-      print('kyle');
       addresses.add(document.get('EventID'));
     });
     print(addresses);
     for (int i = 0; i < addresses.length; i++) {
       DocumentSnapshot doc = await detailsCollection.doc(addresses[i]).get();
-      print('hello');
       print(doc.id);
       list.add(EventDetails(
           eventName: doc.get('Name'),

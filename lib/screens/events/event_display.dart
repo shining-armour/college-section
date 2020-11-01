@@ -11,7 +11,7 @@ class EventDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    Size size = MediaQuery.of(context).size;
     return StreamBuilder<EventDetails>(
         stream: EventDatabaseService(uid: uid).getEventDetails(eid),
         builder: (context, snapshot) {
@@ -20,12 +20,76 @@ class EventDisplay extends StatelessWidget {
             return Scaffold(
               appBar: AppBar(),
               body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      child: Image.network(details.posterUrl),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: size.height * 0.25,
+                        child: Image.network(
+                          details.posterUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Text(
+                        details.eventName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30.0),
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.bookmark),
+                          Text(
+                            details.eventType,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.calendar_today),
+                          Text(
+                            details.dateOfEvent + ' ' + details.timeOfEvent,
+                            style: TextStyle(),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        'About The Event',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25.0),
+                      ),
+                      Text(details.description),
+                      SizedBox(height: 20.0),
+                      Text(
+                        'Eligibility',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25.0),
+                      ),
+                      Text(details.eligibility),
+                      SizedBox(height: 20.0),
+                      Text(
+                        'Other Details',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25.0),
+                      ),
+                      Text(details.otherDetails),
+                      SizedBox(height: 20.0),
+                      Text(
+                        'Venue',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25.0),
+                      ),
+                      Text(details.address),
+                    ],
+                  ),
+                ),
+              ),
+              bottomNavigationBar: Container(
+                child: RaisedButton(
+                  onPressed: () {},
+                  child: Text('Register'),
+                  color: Colors.blue,
                 ),
               ),
             );
