@@ -5,3 +5,10 @@ class ExpLoc {
 
   ExpLoc({this.lat, this.long, this.code});
 }
+
+class ExpUser {
+  final double lat;
+  final double long;
+
+  ExpUser({this.lat, this.long});
+}

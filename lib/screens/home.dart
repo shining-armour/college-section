@@ -3,6 +3,7 @@ import 'package:collegesection/screens/activities/activities_home.dart';
 import 'package:collegesection/screens/mapscreens/Experiment_map.dart';
 import 'package:collegesection/screens/mapscreens/Vibe_map.dart';
 import 'package:collegesection/screens/mapscreens/dummyMap.dart';
+import 'package:collegesection/screens/mapscreens/filtering_users.dart';
 import 'package:collegesection/services/auth.dart';
 import 'package:collegesection/services/userdatabase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -302,6 +303,18 @@ class _HomeState extends State<Home> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
                     return ExperimentMap();
+                  }));
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Text('DummyUsers'),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return FilteringUsers();
                   }));
                 },
               ),
