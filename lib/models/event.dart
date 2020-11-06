@@ -7,11 +7,13 @@ class EventDetails {
       otherDetails,
       timeOfEvent,
       posterUrl,
-      dateOfEvent;
+      dateOfEvent,
+      eid;
   final double lat, long;
 
   EventDetails(
       {this.eventName,
+      this.eid,
       this.address,
       this.description,
       this.eligibility,

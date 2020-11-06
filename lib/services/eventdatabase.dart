@@ -99,7 +99,8 @@ class EventDatabaseService {
         lat: snapshot.get('Latitude'),
         long: snapshot.get('Longitude'),
         posterUrl: snapshot.get('PosterUrl'),
-        dateOfEvent: snapshot.get('DateOfEvent'));
+        dateOfEvent: snapshot.get('DateOfEvent'),
+        eid: snapshot.id);
   }
 
   Stream<EventDetails> getEventDetails(String id) {
@@ -114,22 +115,23 @@ class EventDatabaseService {
     snapshot.docs.forEach((document) {
       addresses.add(document.get('EventID'));
     });
-    print(addresses);
+
     for (int i = 0; i < addresses.length; i++) {
       DocumentSnapshot doc = await detailsCollection.doc(addresses[i]).get();
-      print(doc.id);
       list.add(EventDetails(
-          eventName: doc.get('Name'),
-          address: doc.get('Address'),
-          description: doc.get('Description'),
-          eligibility: doc.get('Eligibility'),
-          eventType: doc.get('EventType'),
-          otherDetails: doc.get('OtherDetails'),
-          timeOfEvent: doc.get('TimeOfEvent'),
-          lat: doc.get('Latitude'),
-          long: doc.get('Longitude'),
-          posterUrl: doc.get('PosterUrl'),
-          dateOfEvent: doc.get('DateOfEvent')));
+        eventName: doc.get('Name'),
+        address: doc.get('Address'),
+        description: doc.get('Description'),
+        eligibility: doc.get('Eligibility'),
+        eventType: doc.get('EventType'),
+        otherDetails: doc.get('OtherDetails'),
+        timeOfEvent: doc.get('TimeOfEvent'),
+        lat: doc.get('Latitude'),
+        long: doc.get('Longitude'),
+        posterUrl: doc.get('PosterUrl'),
+        dateOfEvent: doc.get('DateOfEvent'),
+        eid: doc.id,
+      ));
     }
     return list;
   }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collegesection/models/Activity.dart';
+import 'package:flutter/cupertino.dart';
 
 class ActivityDatabaseService {
   final String uid;
@@ -113,7 +114,8 @@ class ActivityDatabaseService {
         lat: snapshot.get('Latitude') ?? '',
         noOfPlayers: snapshot.get('PlayersReq') ?? '',
         description: snapshot.get('Description'),
-        organiserID: snapshot.get('OrganiserId'));
+        organiserID: snapshot.get('OrganiserId'),
+        aid: snapshot.id);
   }
 
   ActivityDetails _sportDetailsFromSnapshot(DocumentSnapshot snapshot) {
@@ -124,7 +126,8 @@ class ActivityDatabaseService {
         lat: snapshot.get('Latitude') ?? '',
         noOfPlayers: snapshot.get('PlayersReq') ?? '',
         description: snapshot.get('Description'),
-        organiserID: snapshot.get('OrganiserId'));
+        organiserID: snapshot.get('OrganiserId'),
+        aid: snapshot.id);
   }
 
   ActivityDetails _eSportDetailsFromSnapshot(DocumentSnapshot snapshot) {
@@ -135,7 +138,8 @@ class ActivityDatabaseService {
         lat: 0,
         noOfPlayers: snapshot.get('PlayersReq') ?? '',
         description: snapshot.get('Description'),
-        organiserID: snapshot.get('OrganiserId'));
+        organiserID: snapshot.get('OrganiserId'),
+        aid: snapshot.id);
   }
 
   ActivityDetails _skillDetailsFromSnapshot(DocumentSnapshot snapshot) {
@@ -146,7 +150,8 @@ class ActivityDatabaseService {
         lat: 0,
         noOfPlayers: 0,
         description: snapshot.get('Description'),
-        organiserID: snapshot.get('OrganiserId'));
+        organiserID: snapshot.get('OrganiserId'),
+        aid: snapshot.id);
   }
 
   Stream<ActivityDetails> getActivityDetails(String id, String type) {
@@ -166,5 +171,53 @@ class ActivityDatabaseService {
           .snapshots()
           .map(_skillDetailsFromSnapshot);
     }
+  }
+
+  Future<List<ActivityDetails>> activityDetailsForMarkers() async {
+    List<ActivityDetails> list = [];
+    QuerySnapshot snapshot = await sportsCollection.get();
+    snapshot.docs.forEach((document) {
+      list.add(ActivityDetails(
+        activityType: document.get('ActivityType'),
+        activityTitle: document.get('Name'),
+        long: document.get('Longitude') ?? '',
+        lat: document.get('Latitude') ?? '',
+        noOfPlayers: document.get('PlayersReq') ?? '',
+        description: document.get('Description'),
+        organiserID: document.get('OrganiserId'),
+        aid: document.id,
+      ));
+    });
+
+    return list;
+  }
+
+  Future<List<ActivityDetails>> nearestActivityDetailsForMarkers(
+      double lat, double long, int range) async {
+    List<ActivityDetails> list = [];
+    double diffValue = range * 0.005;
+    QuerySnapshot snapshot = await sportsCollection
+        .where('Latitude', isGreaterThanOrEqualTo: lat - diffValue)
+        .where('Latitude', isLessThanOrEqualTo: lat + diffValue)
+//        .where('Longitude', isGreaterThanOrEqualTo: long - diffValue)
+//        .where('Longitude', isLessThanOrEqualTo: long + diffValue)
+        .get();
+    snapshot.docs.forEach((document) {
+      double l = document.get('Longitude');
+      if ((long - diffValue) < l && (long + diffValue) > l) {
+        list.add(ActivityDetails(
+          activityType: document.get('ActivityType'),
+          activityTitle: document.get('Name'),
+          long: document.get('Longitude') ?? '',
+          lat: document.get('Latitude') ?? '',
+          noOfPlayers: document.get('PlayersReq') ?? '',
+          description: document.get('Description'),
+          organiserID: document.get('OrganiserId'),
+          aid: document.id,
+        ));
+      }
+    });
+
+    return list;
   }
 }

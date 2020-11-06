@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:collegesection/models/event.dart';
+import 'package:collegesection/screens/events/event_display.dart';
 import 'package:collegesection/services/eventdatabase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _EventsMapState extends State<EventsMap> {
     ByteData musicbyteData =
         await DefaultAssetBundle.of(context).load('assets/music.png');
     ByteData partybyteData =
-        await DefaultAssetBundle.of(context).load('assets/party2.png');
+        await DefaultAssetBundle.of(context).load('assets/party.png');
     gps = gpsbyteData.buffer.asUint8List();
     clg = collegebyteData.buffer.asUint8List();
     music = musicbyteData.buffer.asUint8List();
@@ -61,7 +62,6 @@ class _EventsMapState extends State<EventsMap> {
     _getMarkers();
     details =
         await EventDatabaseService(uid: widget.uid).eventDetailsForMarkers();
-    print(details.length);
     List<Marker> list = [];
     for (int i = 0; i < details.length; i++) {
       int x = details[i].eventType == 'college'
@@ -70,10 +70,21 @@ class _EventsMapState extends State<EventsMap> {
               ? 2
               : 3;
       list.add(Marker(
+          anchor: Offset(0.5, 0.5),
+          flat: true,
+          zIndex: 2,
+          draggable: false,
           markerId: MarkerId(i.toString()),
           position: LatLng(details[i].lat, details[i].long),
           icon: BitmapDescriptor.fromBytes(markerImg[x]),
-          infoWindow: InfoWindow(title: details[i].eventName)));
+          infoWindow: InfoWindow(
+              title: details[i].eventName,
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return EventDisplay(uid: widget.uid, eid: details[i].eid);
+                }));
+              })));
     }
     if (this.mounted) {
       this.setState(() {
@@ -93,6 +104,7 @@ class _EventsMapState extends State<EventsMap> {
           position: latLng,
           zIndex: 2,
           draggable: false,
+          infoWindow: InfoWindow(title: 'Your Location'),
           icon: markerImg[0] != null
               ? BitmapDescriptor.fromBytes(markerImg[0])
               : BitmapDescriptor.defaultMarker,
@@ -136,7 +148,7 @@ class _EventsMapState extends State<EventsMap> {
       appBar: AppBar(),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
-          zoom: 15,
+          zoom: 4,
           target: LatLng(initPos.latitude, initPos.longitude),
         ),
         markers: Set.of(userLocMarker == null ? markers : markers),

@@ -32,6 +32,11 @@ class ActivityDisplay extends StatelessWidget {
               a.activityType != 'Skill'
                   ? Text('Required: ' + a.noOfPlayers.toString() + 'Players')
                   : Container(),
+              RaisedButton(
+                onPressed: () {},
+                color: Colors.greenAccent,
+                child: Text('Request'),
+              ),
             ],
           ),
         ),

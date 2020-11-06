@@ -9,7 +9,7 @@ class Activity {
 }
 
 class ActivityDetails {
-  final String activityTitle, description, activityType, organiserID;
+  final String activityTitle, description, activityType, organiserID, aid;
   final double lat, long;
   int noOfPlayers;
 
@@ -20,5 +20,6 @@ class ActivityDetails {
       this.noOfPlayers,
       this.lat,
       this.long,
-      this.organiserID});
+      this.organiserID,
+      this.aid});
 }

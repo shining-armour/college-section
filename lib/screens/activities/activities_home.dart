@@ -1,6 +1,7 @@
 import 'package:collegesection/models/Activity.dart';
 import 'package:collegesection/screens/activities/activity_display.dart';
 import 'package:collegesection/screens/activities/add_activity.dart';
+import 'package:collegesection/screens/mapscreens/activity_map.dart';
 import 'package:collegesection/services/activity_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,19 @@ class _ActivityHomeState extends State<ActivityHome> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Activities'),
+        actions: [
+          FlatButton(
+            child: Text('your activities'),
+            onPressed: () {},
+          ),
+          FlatButton(
+            child: Text('your requests'),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Container(
@@ -198,7 +211,14 @@ class _ActivityHomeState extends State<ActivityHome> {
                           width: 5.0,
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return ActivityMap(
+                                uid: widget.uid,
+                              );
+                            }));
+                          },
                           child: Container(
                             child: Icon(Icons.map),
                           ),
