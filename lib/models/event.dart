@@ -38,3 +38,13 @@ class Event {
     this.eventType,
   });
 }
+class HomeData {
+  final String eventname,eventType,time,posterurl;
+
+  HomeData({
+    this.eventname,
+    this.eventType,
+    this.posterurl,
+    this.time
+  });
+}

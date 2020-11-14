@@ -15,13 +15,13 @@ class AuthService {
         .map((User user) => _userFromFireBaseUser(user));
   }
 
-  Future register(String email, String password) async {
+  Future register(String username,String email, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
 
-      await UserDatabaseService(uid: user.uid).updateUserData(email);
+      await UserDatabaseService(uid: user.uid).updateUserData(username,email);
       return _userFromFireBaseUser(user);
     } catch (e) {
       print(e.toString());

@@ -12,7 +12,7 @@ class _RegisterState extends State<Register> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String email = "";
+  String email = "",username="";
   String password = "";
   String error = "";
   @override
@@ -22,6 +22,26 @@ class _RegisterState extends State<Register> {
         key: _formKey,
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Username',
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black, width: 1.0)),
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lime, width: 2.0),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
+                validator: (val) => val.isEmpty ? 'Username' : null,
+                onChanged: (val) {
+                  setState(() => username = val);
+                },
+              ),
+            ),
             SizedBox(height: 20.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -77,7 +97,7 @@ class _RegisterState extends State<Register> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    dynamic result = await _auth.register(email, password);
+                    dynamic result = await _auth.register(username,email, password);
                     if (result == null) {
                       setState(() {
                         error = 'Invalid Credintials';
