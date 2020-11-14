@@ -296,7 +296,7 @@ class _AddEventState extends State<AddEvent> {
                 ),
               ),
               ListTile(
-                title: Text(pickedPlace),
+                title: Text(''),
                 subtitle: Text('Location of Event'),
                 trailing: IconButton(
                   icon: Icon(Icons.map),
@@ -305,7 +305,9 @@ class _AddEventState extends State<AddEvent> {
                         context, 'AIzaSyA1xkcTC9aSwxEcKRz4TCBNOqfx0BI_ODY');
                     setState(() {
                       result = loc;
-                      pickedPlace = result.address;
+                      pickedPlace = loc.latLng.latitude.toString() +
+                          ',' +
+                          loc.latLng.longitude.toString();
                     });
                   },
                 ),

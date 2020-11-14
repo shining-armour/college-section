@@ -27,7 +27,9 @@ class FilteringUsersDatabaseService {
       double l = document.get('Longitude');
       if ((long - diffValue) < l && (long + diffValue) > l) {
         list.add(ExpUser(
-            lat: document.get('Latitude'), long: document.get('Longitude')));
+          lat: document.get('Latitude'),
+          long: document.get('Longitude'),
+        ));
       }
     });
     return list;

@@ -15,6 +15,6 @@ class UserDatabaseService {
       double lat, double long, String deviceToken) async {
     return await userCollection
         .doc(uid)
-        .set({'latitude': lat, 'longitude': long, 'deviceToken': deviceToken});
+        .update({'latitude': lat, 'longitude': long, 'deviceToken': deviceToken});
   }
 }
