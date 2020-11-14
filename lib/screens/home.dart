@@ -1,3 +1,4 @@
+import 'package:collegesection/Money/MoneyMatters.dart';
 import 'package:collegesection/models/user.dart';
 import 'package:collegesection/screens/activities/activities_home.dart';
 import 'package:collegesection/screens/mapscreens/Experiment_map.dart';
@@ -148,20 +149,28 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            image: new DecorationImage(
-                                image: AssetImage("assets/party.png"),
-                                fit: BoxFit.fill),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        height: MediaQuery.of(context).size.height / 6,
-                        child: SvgPicture.asset(
-                          "assets/money.svg",
-                          fit: BoxFit.cover,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return MoneyMatters(user.uid);
+                        }));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: new DecorationImage(
+                                  image: AssetImage("assets/party.png"),
+                                  fit: BoxFit.fill),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          height: MediaQuery.of(context).size.height / 6,
+                          child: SvgPicture.asset(
+                            "assets/money.svg",
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),

@@ -43,7 +43,7 @@ class _CategoriesState extends State<Categories> {
               categories[index],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-             //   color: selectedIndex == index ? Colors.blue : 20.0,
+//                color: selectedIndex == index ? Colors.blue : 20.0,
               ),
             ),
             Container(
@@ -52,7 +52,7 @@ class _CategoriesState extends State<Categories> {
               width: 30,
               color: selectedIndex == index ? Colors.black : Colors.transparent,
             ),
-           // tabs[selectedIndex],
+            // tabs[selectedIndex],
           ],
         ),
       ),

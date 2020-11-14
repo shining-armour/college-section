@@ -185,12 +185,12 @@ class _ActivityHomeState extends State<ActivityHome> {
                   padding: const EdgeInsets.all(8.0),
                   child: RaisedButton.icon(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => AddActivity(
-                                    uid: widget.uid,
-                                  )));
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (BuildContext context) => AddActivity(
+//                                    uid: widget.uid,
+//                                  )));
                     },
                     icon: Icon(
                       Icons.add,

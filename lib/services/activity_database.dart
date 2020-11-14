@@ -220,4 +220,27 @@ class ActivityDatabaseService {
 
     return list;
   }
+
+  Future addRequest(String aid) async {
+    DocumentSnapshot document = await FirebaseFirestore.instance
+        .collection('ActivityPaticipation')
+        .doc(aid)
+        .get();
+    int req = 0, found = 0;
+    if (document.exists) {
+      req = document.get('Required');
+      found = document.get('Found');
+    }
+    if(found<req) {
+      return await FirebaseFirestore.instance
+          .collection('ActivityRequests')
+          .doc(aid)
+          .collection('requests')
+          .doc(uid)
+          .set({
+        'uid': uid,
+        'Accepted': 0,
+      });
+    }
+  }
 }

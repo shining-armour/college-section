@@ -175,10 +175,10 @@ class _EventsState extends State<Events> {
                   padding: const EdgeInsets.all(8.0),
                   child: RaisedButton.icon(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddEvent(widget.uid)));
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (context) => AddEvent(widget.uid)));
                     },
                     icon: Icon(
                       Icons.add,

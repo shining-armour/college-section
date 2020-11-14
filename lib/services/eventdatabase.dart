@@ -135,4 +135,15 @@ class EventDatabaseService {
     }
     return list;
   }
+
+  Future addRegistration(String eid) async {
+    return await FirebaseFirestore.instance
+        .collection('EventRequests')
+        .doc(eid)
+        .collection('requests')
+        .doc(uid)
+        .set({
+      'uid': uid,
+    });
+  }
 }

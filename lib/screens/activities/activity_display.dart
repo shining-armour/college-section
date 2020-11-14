@@ -1,12 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collegesection/models/Activity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:collegesection/services/activity_database.dart';
 
-class ActivityDisplay extends StatelessWidget {
+class ActivityDisplay extends StatefulWidget {
   final String uid;
   final ActivityDetails a;
 
   ActivityDisplay({this.uid, this.a});
+
+  @override
+  _ActivityDisplayState createState() => _ActivityDisplayState();
+}
+
+class _ActivityDisplayState extends State<ActivityDisplay> {
+  bool requested = false;
+
+  void initState() {
+    checkRequested();
+  }
+
+  void checkRequested() async {
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('ActivityRequests')
+        .doc(widget.a.aid)
+        .collection('requests')
+        .doc(widget.uid)
+        .get();
+    if (doc.exists) {
+      this.setState(() {
+        requested = true;
+      });
+    } else {
+      this.setState(() {
+        requested = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +50,33 @@ class ActivityDisplay extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                a.activityTitle,
+                widget.a.activityTitle,
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 20.0,
               ),
-              Text(a.description),
+              Text(widget.a.description),
               SizedBox(
                 height: 20.0,
               ),
-              a.activityType != 'Skill'
-                  ? Text('Required: ' + a.noOfPlayers.toString() + 'Players')
+              widget.a.activityType != 'Skill'
+                  ? Text('Required: ' +
+                      widget.a.noOfPlayers.toString() +
+                      'Players')
                   : Container(),
               RaisedButton(
-                onPressed: () {},
-                color: Colors.greenAccent,
-                child: Text('Request'),
+                onPressed: () async {
+                  if (!requested) {
+                    await ActivityDatabaseService(uid: widget.uid)
+                        .addRequest(widget.a.aid);
+                    this.setState(() {
+                      requested = true;
+                    });
+                  }
+                },
+                color: requested ? Colors.white : Colors.greenAccent,
+                child: requested ? Text('Send request') : Text('Request'),
               ),
             ],
           ),
