@@ -2,7 +2,6 @@ import 'package:collegesection/models/user.dart';
 import 'package:collegesection/screens/activities/activities_home.dart';
 import 'package:collegesection/screens/mapscreens/Experiment_map.dart';
 import 'package:collegesection/screens/mapscreens/Vibe_map.dart';
-import 'package:collegesection/screens/mapscreens/dummyMap.dart';
 import 'package:collegesection/screens/mapscreens/filtering_users.dart';
 import 'package:collegesection/services/auth.dart';
 import 'package:collegesection/services/userdatabase.dart';
