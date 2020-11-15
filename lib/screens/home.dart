@@ -13,6 +13,8 @@ import 'package:collegesection/screens/events/events_home.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:collegesection/screens/growth/growth_home.dart';
+import 'package:collegesection/screens/growth/my_resume.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -33,14 +35,12 @@ class _HomeState extends State<Home> {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     await FirebaseMessaging().getToken().then((deviceToken) {
       print('DeviceToken : $deviceToken');
-
       setState(() {
         devToken = deviceToken;
       });
     });
     print(devToken);
-    await UserDatabaseService(uid: user.uid).updateUserDataWithDetails(
-        position.latitude, position.longitude, devToken);
+    await UserDatabaseService(uid: user.uid).updateUserDataWithDetails(position.latitude, position.longitude, devToken);
   }
 
   @override
@@ -132,22 +132,25 @@ class _HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            image: new DecorationImage(
-                                image: AssetImage("assets/party.png"),
-                                fit: BoxFit.fill),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        height: MediaQuery.of(context).size.height / 6,
-                        child: SvgPicture.asset(
-                          "assets/growth.svg",
-                          fit: BoxFit.cover,
+                    GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: new DecorationImage(
+                                  image: AssetImage("assets/party.png"),
+                                  fit: BoxFit.fill),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          height: MediaQuery.of(context).size.height / 6,
+                          child: SvgPicture.asset(
+                            "assets/growth.svg",
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> GrowthHome(uid: user.uid)))
                     ),
                     GestureDetector(
                       onTap: () {
@@ -301,6 +304,13 @@ class _HomeState extends State<Home> {
                 onTap: () async {
                   await AuthService().signOut();
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                  title: Text('My Resume'),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> MyResume(uid: user.uid)))
               ),
             ),
             Padding(
